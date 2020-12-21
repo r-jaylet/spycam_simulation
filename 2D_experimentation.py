@@ -1,6 +1,7 @@
 from numpy import *
 
-'CONTEXT'
+# CONTEXT
+
 D = 0.75  # distance séparant les deux poulies [m]
 H = 0.8  # hauteur des deux poulies [m]
 m = 0.18  # masse de la caméra [kg]
@@ -15,8 +16,8 @@ L20 = ((A2[0]) ** 2 + (A2[1]) ** 2) ** (1 / 2)
 
 T = arange(0, 2 * pi, 0.1)
 
-'MODELE GEOMETRIQUE DIRECT'
 
+# Direct geometric model
 
 def th1(M):
     return -arctan(((A1[1] - M[1]) / (A1[0] - M[0])))
@@ -38,7 +39,8 @@ def tens(M):
     return [(m * g * cos(th2(M))) / sin(th1(M) + th2(M)), (m * g * cos(th1(M))) / sin(th1(M) + th2(M))]
 
 
-'definition trajectoire circulaire'
+# Circular trajectory definition
+
 C = [0.25, 0.25]
 R = 0.10
 
@@ -51,8 +53,8 @@ VY = R * cos(T)
 AX = -R * cos(T)
 AY = -R * sin(T)
 
-'EVOLUTION DES ANGLES'
 
+# Angles evolution
 
 def thetadegre(M):
     t1 = []
@@ -63,8 +65,8 @@ def thetadegre(M):
     return [t1, t2]
 
 
-thetaz1 = (thetadegre(M))[0]
-thetaz2 = (thetadegre(M))[1]
+#thetaz1 = (thetadegre(M))[0]
+#thetaz2 = (thetadegre(M))[1]
 
 
 def theta(M):
@@ -76,11 +78,11 @@ def theta(M):
     return [t1, t2]
 
 
-theta1 = (theta(M))[0]
-theta2 = (theta(M))[1]
+#theta1 = (theta(M))[0]
+#theta2 = (theta(M))[1]
 
-'EVOLUTION DES GRANDEURS CARACtERISTIQUES'
 
+# Length and speed evolution
 
 def longueur(M):
     L1 = []
@@ -91,8 +93,8 @@ def longueur(M):
     return [L1, L2]
 
 
-L1 = (longueur(M))[0]
-L2 = (longueur(M))[1]
+#L1 = (longueur(M))[0]
+#L2 = (longueur(M))[1]
 
 
 def thetad(M):
@@ -104,8 +106,8 @@ def thetad(M):
     return [t1, t2]
 
 
-thetad1 = (thetad(M))[0]
-thetad2 = (thetad(M))[1]
+#thetad1 = (thetad(M))[0]
+#thetad2 = (thetad(M))[1]
 
 
 def longueurd(M):
@@ -117,11 +119,11 @@ def longueurd(M):
     return [L1, L2]
 
 
-Ld1 = (longueurd(M))[0]
-Ld2 = (longueurd(M))[1]
+#Ld1 = (longueurd(M))[0]
+#Ld2 = (longueurd(M))[1]
 
-'EVOLUTION TENSION CABLE'
 
+# cable tension evolution
 
 def tension():
     F1 = []
@@ -132,8 +134,8 @@ def tension():
     return [F1, F2]
 
 
-Tension1 = tension()[0]
-Tension2 = tension()[1]
+#Tension1 = tension()[0]
+#Tension2 = tension()[1]
 
 
 def plan(seuil):
@@ -151,11 +153,11 @@ def plan(seuil):
     return [i, j, k]
 
 
-X = plan(5)[0]
-Y = plan(5)[1]
+#X = plan(5)[0]
+#Y = plan(5)[1]
 
-'EVOLUTION ROTATION DES MOTEURS'
 
+# motor rotational evolution
 
 def beta(M):
     b1 = []
@@ -166,8 +168,8 @@ def beta(M):
     return [b1, b2]
 
 
-beta1 = (beta(M))[0]
-beta2 = (beta(M))[1]
+#beta1 = (beta(M))[0]
+#beta2 = (beta(M))[1]
 
 
 def betad(M):
@@ -179,8 +181,8 @@ def betad(M):
     return [bd1, bd2]
 
 
-betad1 = (betad(M))[0]
-betad2 = (betad(M))[1]
+#betad1 = (betad(M))[0]
+#betad2 = (betad(M))[1]
 
 
 def betadd(M):
@@ -194,8 +196,8 @@ def betadd(M):
     return [bdd1, bdd2]
 
 
-betadd1 = (betadd(M))[0]
-betadd2 = (betadd(M))[1]
+#betadd1 = (betadd(M))[0]
+#betadd2 = (betadd(M))[1]
 
 
 def multi(L, k):
@@ -205,10 +207,8 @@ def multi(L, k):
     return A
 
 
-vitesseRPM1 = multi(betad1, (60 / (2 * 3.14)))
-vitesseRPM2 = multi(betad2, (60 / (2 * 3.14)))
-
-'COMMANDE ARDUINO'
+#vitesseRPM1 = multi(betad1, (60 / (2 * 3.14)))
+#vitesseRPM2 = multi(betad2, (60 / (2 * 3.14)))
 
 
 def adaptation(vRPM1, vRPM2):
@@ -230,8 +230,8 @@ def adaptation(vRPM1, vRPM2):
     return L1, L2
 
 
-vitessearduino1 = adaptation(vitesseRPM1, vitesseRPM2)[0]
-vitessearduino2 = adaptation(vitesseRPM1, vitesseRPM2)[1]
+#vitessearduino1 = adaptation(vitesseRPM1, vitesseRPM2)[0]
+#vitessearduino2 = adaptation(vitesseRPM1, vitesseRPM2)[1]
 
 
 def arduino(L1, L2):

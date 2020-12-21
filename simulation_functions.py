@@ -1,16 +1,10 @@
-from math import *
 import numpy as np
 import scipy.integrate as spint
-
+from math import *
 
 def CalcPXTH(X, STADE, R):
     """
-    Calcul de la matrice P de changement de base 
-    
-    entrée :    X position (vecteur 3 composantes)
-                STADE taille du stade (vecteur 3 composantes)   
-                R rayon des treuils (scalaire)
-    sortie : matrice 3x3
+    Compute base change matrix
     """
     x = X[0]
     y = X[1]
@@ -39,11 +33,7 @@ def CalcPXTH(X, STADE, R):
 
 def CalcHXTH(X, STADE, R):
     """
-    Calcul des matrices H1, H2, H3
-    entrée :    X position (vecteur 3 composantes)
-                STADE taille du stade (vecteur 3 composantes)   
-                R rayon des treuils (scalaire)
-    sortie : H1,H2,H3 matrices 3x3
+    Compute matrix H1, H2, H3
     """
     x = X[0]
     y = X[1]
@@ -97,20 +87,7 @@ def CalcHXTH(X, STADE, R):
 
 def TrajRef(Xdep, Xfin, tfin, t1, t2, STADE, R, timestep=0.001):
     """
-    Calcul de la trajectoire de référence
-    entrée :    Xdep position de départ (vecteur colonne 3 composantes)
-                Xfin position d'arrivée (vecteur colonne 3 composantes)
-                tfin date d'arrivée (scalaire)
-                t1 date à la fin de la première accélération (scalaire)
-                t2 date au début du freinage (scalaire)
-                STADE taille du stade (vecteur 3 composantes)
-                R rayon des treuils (scalaire)
-                dt temps d'échantillonnage (scalaire - optionnel)
-    sortie : temps t (vecteur ligne taille N)
-             vitXref position de référence (matrice 3 lignes N colonnes)
-             posXref vitesse de référence (matrice 3 lignes N colonnes)
-             vitThref vitesse angulaire de référence (matrice 3 lignes N colonnes)
-             posThref position angulaire de référence (matrice 3 lignes N colonnes)
+    Compute reference trajectory
     """
     Nt = int((tfin - 0) / timestep + 1)
     t, dt = np.linspace(0, tfin, Nt, retstep=True)
@@ -135,18 +112,7 @@ def TrajRef(Xdep, Xfin, tfin, t1, t2, STADE, R, timestep=0.001):
 
 def CalcConsigne(t, time, vitXref, posXref, vitThref, posThref):
     """"
-    Formation des signaux de consigne pour la régulation par interpolation 
-    à partir du calcul de la trajectoire de référence
-    entrée  : t date à laquelle on souhaite déterminer la consigne (scalaire)
-              time temps (vecteur ligne taille N)
-              vitXref position de référence (vecteur 3 lignes N colonnes)
-              posXref vitesse de référence (vecteur 3 lignes N colonnes)
-              vitThref vitesse angulaire de référence (vecteur 3 lignes N colonnes)
-              posThref position angulaire de référence (vecteur 3 lignes N colonnes)
-    sortie : X_pt0 vitesse de consigne (vecteur 3 colonnes)
-             X0    position de consigne (vecteur 3 colonnes)
-             Th_pt0 vitesse angulaire de consigne (vecteur 3 colonnes)
-             Th0 position angulaire de consigne (vecteur 3 colonnes)
+    Generation of signals for interpolation control from the calculation of the reference
     """
     X_pt0 = np.zeros((3, 1))
     X0 = np.zeros((3, 1))
@@ -162,12 +128,7 @@ def CalcConsigne(t, time, vitXref, posXref, vitThref, posThref):
 
 def EqDiff(Y, t, STADE, R, mA, Sinv, L, G, g, Kpos, Kvit, time, vitXref, posXref, vitThref, posThref, Fpert):
     """
-    Equation différentielle régissant le système  (Y)'=f(Y,t)
-    entrée : Y vecteur 12 composantes 
-             t temps (scalaire)
-             ... tous les arguments nécessaires au calcul
-    sortie : Y' vecteur 12 composantes 
-    
+    Differential equation Y'=f(Y,t)
     """
     Ypt = np.zeros(12)
     X = Y[0:3, None]
